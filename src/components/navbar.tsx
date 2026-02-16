@@ -16,6 +16,8 @@ export function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
     const isScrolled = scrollY > 50;
 
+    const isHome = pathname === '/';
+
     // Close mobile menu on route change
     useEffect(() => {
         setIsOpen(false);
@@ -24,47 +26,47 @@ export function Navbar() {
     return (
         <header
             className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${!isScrolled
-                ? 'bg-transparent py-4 md:py-6'
-                : 'bg-white/80 backdrop-blur-xl border-b border-olive-900/5 shadow-sm py-3'
+                ? 'bg-transparent py-6'
+                : 'bg-cream-50/80 backdrop-blur-md border-b border-olive-900/5 shadow-sm py-3'
                 }`}
         >
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <nav className="flex items-center justify-between">
                     {/* Logo */}
                     <Link href="/" className="flex items-center gap-3 group">
-                        <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 group-hover:scale-105 shadow-sm 
+                        <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 group-hover:scale-105 shadow-md 
                             ${!isScrolled
-                                ? 'bg-olive-900 text-cream-50'
-                                : 'bg-olive-900 text-cream-50'}`}>
-                            <span className="text-lg font-bold font-serif">T</span>
+                                ? (isHome ? 'bg-olive-900/5 backdrop-blur-md border border-olive-900/10' : 'bg-olive-900/5 backdrop-blur-md border border-olive-900/10')
+                                : 'bg-olive-900 text-cream-50 shadow-olive-900/20'}`}>
+                            <span className={`text-lg font-bold font-serif ${!isScrolled
+                                ? 'text-olive-900'
+                                : 'text-cream-50'}`}>T</span>
                         </div>
-                        <span className={`text-2xl font-serif font-medium tracking-tight transition-colors duration-300 text-olive-900`}>
+                        <span className={`text-2xl font-serif font-medium tracking-tight transition-colors duration-300
+                            ${!isScrolled
+                                ? 'text-olive-900'
+                                : 'text-olive-900'}`}>
                             Thinkery
                         </span>
                     </Link>
 
                     {/* Desktop Navigation */}
-                    <div className={`hidden md:flex items-center gap-1 p-1 rounded-full border transition-all duration-300
+                    <div className={`hidden md:flex items-center gap-2 p-1.5 rounded-full border transition-all duration-300 shadow-sm
                         ${!isScrolled
-                            ? 'bg-white/50 backdrop-blur-md border-olive-900/5 shadow-sm'
+                            ? 'bg-white/40 backdrop-blur-md border-white/40 lg:bg-white/60 lg:border-olive-900/10 lg:shadow-olive-900/5'
                             : 'bg-transparent border-transparent shadow-none'}`}>
                         {NAV_ITEMS.map((item) => (
                             <Link
                                 key={item.href}
                                 href={item.href}
-                                className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 relative ${pathname === item.href
-                                    ? 'text-olive-900 font-semibold'
-                                    : 'text-olive-700 hover:text-olive-950 hover:bg-olive-900/5'
+                                className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${pathname === item.href
+                                    ? 'bg-olive-900 text-cream-50 shadow-md transform scale-105'
+                                    : isScrolled
+                                        ? 'text-olive-800 hover:bg-olive-900/5'
+                                        : 'text-olive-800 hover:bg-olive-900/5 lg:hover:bg-olive-900/5'
                                     }`}
                             >
                                 {item.label}
-                                {pathname === item.href && (
-                                    <motion.div
-                                        layoutId="navbar-indicator"
-                                        className="absolute inset-0 bg-white rounded-full shadow-sm -z-10 border border-olive-900/5"
-                                        transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                                    />
-                                )}
                             </Link>
                         ))}
                     </div>
@@ -73,9 +75,9 @@ export function Navbar() {
                     <div className="hidden md:flex items-center gap-3">
                         <Button
                             asChild
-                            className={`rounded-full px-6 py-5 text-sm font-bold tracking-wide uppercase transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5
+                            className={`rounded-full px-7 py-6 text-base shadow-xl transition-all duration-300 hover:shadow-2xl hover:-translate-y-0.5
                                 ${!isScrolled
-                                    ? 'bg-olive-900 text-cream-50 hover:bg-olive-800'
+                                    ? 'bg-white text-olive-900 hover:bg-cream-50'
                                     : 'bg-olive-900 text-cream-50 hover:bg-olive-800'}`}
                         >
                             <Link href="/contact">Visit Us</Link>
@@ -87,8 +89,8 @@ export function Navbar() {
                         <SheetTrigger asChild className="md:hidden">
                             <button
                                 className={`p-2.5 rounded-full transition-all duration-300 ${!isScrolled
-                                    ? 'bg-white/50 backdrop-blur-md text-olive-900 border border-olive-900/10'
-                                    : 'bg-olive-50 text-olive-900'}`}
+                                    ? (isHome ? 'bg-olive-900/5 hover:bg-olive-900/10 backdrop-blur-md text-olive-900' : 'bg-olive-900/5 hover:bg-olive-900/10 text-olive-900')
+                                    : 'bg-olive-100 hover:bg-olive-200 text-olive-900'}`}
                                 aria-label="Open menu"
                             >
                                 <Menu className="w-5 h-5" />
@@ -96,7 +98,8 @@ export function Navbar() {
                         </SheetTrigger>
                         <SheetContent
                             side="right"
-                            className="w-full sm:w-[400px] bg-cream-50/95 backdrop-blur-xl border-l border-white/50 p-0 overflow-hidden"
+                            showCloseButton={false}
+                            className="w-[85vw] sm:w-[400px] bg-cream-50/95 backdrop-blur-xl border-l border-white/50 p-0 overflow-hidden"
                         >
                             {/* Texture Overlay */}
                             <div className="absolute inset-0 bg-fluted opacity-[0.03] pointer-events-none" />
@@ -106,7 +109,7 @@ export function Navbar() {
 
                             <div className="flex flex-col h-full relative z-10">
                                 {/* Mobile Logo */}
-                                <div className="flex items-center justify-between p-6 pt-8 border-b border-olive-900/5">
+                                <div className="flex items-center justify-between p-8 border-b border-olive-900/5">
                                     <div className="flex items-center gap-3">
                                         <div className="w-10 h-10 rounded-full bg-olive-900 flex items-center justify-center shadow-lg shadow-olive-900/10">
                                             <span className="text-cream-50 text-lg font-bold font-serif">T</span>
@@ -117,37 +120,34 @@ export function Navbar() {
                                     </div>
                                     <button
                                         onClick={() => setIsOpen(false)}
-                                        className="p-2.5 rounded-full bg-white/50 hover:bg-olive-900/10 text-olive-900 transition-all duration-300 active:scale-90"
+                                        className="p-2.5 rounded-full hover:bg-olive-900/10 text-olive-900 transition-all duration-300 active:scale-90"
                                     >
                                         <X className="w-6 h-6" />
                                     </button>
                                 </div>
 
                                 {/* Mobile Nav Links */}
-                                <div className="flex flex-col p-6 gap-2">
+                                <div className="flex flex-col p-8 gap-3">
                                     {NAV_ITEMS.map((item, index) => (
                                         <motion.div
                                             key={item.href}
-                                            initial={{ opacity: 0, x: 20 }}
-                                            animate={isOpen ? { opacity: 1, x: 0 } : { opacity: 0, x: 20 }}
+                                            initial={{ opacity: 0, x: 50, scale: 0.95, filter: 'blur(4px)' }}
+                                            animate={isOpen ? { opacity: 1, x: 0, scale: 1, filter: 'blur(0px)' } : { opacity: 0, x: 50, scale: 0.95, filter: 'blur(4px)' }}
                                             transition={{
-                                                duration: 0.5,
-                                                delay: 0.1 + index * 0.1,
-                                                ease: [0.22, 1, 0.36, 1]
+                                                duration: 1.1,
+                                                delay: 0.18 + index * 0.1,
+                                                ease: [0.19, 1, 0.22, 1]
                                             }}
                                         >
                                             <Link
                                                 href={item.href}
                                                 onClick={() => setIsOpen(false)}
-                                                className={`flex items-center justify-between px-6 py-5 rounded-2xl text-lg font-serif transition-all duration-300 border border-transparent ${pathname === item.href
-                                                    ? 'bg-white shadow-lg shadow-olive-900/5 border-olive-900/5 font-medium text-olive-900 translate-x-2'
-                                                    : 'text-olive-700 hover:bg-white/60 hover:translate-x-1'
+                                                className={`px-6 py-4 rounded-2xl text-xl font-serif block transition-all duration-300 ${pathname === item.href
+                                                    ? 'bg-olive-900 text-cream-50 shadow-lg shadow-olive-900/10 translate-x-2 font-semibold'
+                                                    : 'text-olive-700 hover:bg-white/80 hover:shadow-md hover:translate-x-1'
                                                     }`}
                                             >
                                                 {item.label}
-                                                {pathname === item.href && (
-                                                    <span className="w-1.5 h-1.5 rounded-full bg-olive-500" />
-                                                )}
                                             </Link>
                                         </motion.div>
                                     ))}
@@ -156,9 +156,9 @@ export function Navbar() {
                                 {/* Mobile CTA */}
                                 <motion.div
                                     className="mt-auto p-8 border-t border-olive-900/5 bg-white/40 backdrop-blur-md"
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={isOpen ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                                    transition={{ duration: 0.5, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                                    initial={{ opacity: 0, y: 30, filter: 'blur(4px)' }}
+                                    animate={isOpen ? { opacity: 1, y: 0, filter: 'blur(0px)' } : { opacity: 0, y: 30, filter: 'blur(4px)' }}
+                                    transition={{ duration: 1.1, delay: 0.6, ease: [0.19, 1, 0.22, 1] }}
                                 >
                                     <Button
                                         asChild
