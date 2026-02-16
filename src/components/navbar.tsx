@@ -54,15 +54,15 @@ export function Navbar() {
                     <Link href="/" className="flex items-center gap-3 group">
                         <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 group-hover:scale-105 shadow-md 
                             ${!isScrolled
-                                ? (isHome ? 'bg-white/10 lg:bg-olive-900/5 backdrop-blur-md border border-white/20 lg:border-olive-900/10' : 'bg-olive-900/5 backdrop-blur-md border border-olive-900/10')
+                                ? 'bg-olive-900/5 backdrop-blur-md border border-olive-900/10'
                                 : 'bg-olive-900 text-cream-50 shadow-olive-900/20'}`}>
                             <span className={`text-lg font-bold font-serif ${!isScrolled
-                                ? (isHome ? 'text-white lg:text-olive-900' : 'text-olive-900')
+                                ? 'text-olive-900'
                                 : 'text-cream-50'}`}>T</span>
                         </div>
                         <span className={`text-2xl font-serif font-medium tracking-tight transition-colors duration-300
                             ${!isScrolled
-                                ? (isHome ? 'text-white lg:text-olive-900 drop-shadow-md lg:drop-shadow-none' : 'text-olive-900')
+                                ? 'text-olive-900'
                                 : 'text-olive-900'}`}>
                             Thinkery
                         </span>
@@ -81,7 +81,7 @@ export function Navbar() {
                                     ? 'bg-olive-900 text-cream-50 shadow-md transform scale-105'
                                     : isScrolled
                                         ? 'text-olive-800 hover:bg-olive-900/5'
-                                        : 'text-white lg:text-olive-800 hover:bg-white/20 lg:hover:bg-olive-900/5'
+                                        : 'text-olive-800 hover:bg-olive-900/5'
                                     }`}
                             >
                                 {item.label}
@@ -107,7 +107,7 @@ export function Navbar() {
                         <SheetTrigger asChild className="md:hidden">
                             <button
                                 className={`p-2.5 rounded-full transition-all duration-300 ${!isScrolled
-                                    ? (isHome ? 'bg-white/10 hover:bg-white/20 backdrop-blur-md text-white' : 'bg-olive-900/5 hover:bg-olive-900/10 text-olive-900')
+                                    ? 'bg-olive-900/5 hover:bg-olive-900/10 backdrop-blur-md text-olive-900'
                                     : 'bg-olive-100 hover:bg-olive-200 text-olive-900'}`}
                                 aria-label="Open menu"
                             >
